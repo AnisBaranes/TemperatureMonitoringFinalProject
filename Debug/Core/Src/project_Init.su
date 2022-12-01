@@ -1,0 +1,6 @@
+../Core/Inc/Led.h:22:5:Led::Led(GPIO_TypeDef*, uint16_t)	24	static
+../Core/Inc/Led.h:31:5:Led::~Led()	16	static
+../Core/Src/project_Init.cpp:21:6:void myMain()	16	static
+../Core/Src/project_Init.cpp:47:1:void __static_initialization_and_destruction_0(int, int)	16	static
+../Core/Src/project_Init.cpp:47:1:cpp)	8	static
+../Core/Src/project_Init.cpp:47:1:cpp)	8	static

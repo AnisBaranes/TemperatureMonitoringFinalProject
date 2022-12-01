@@ -1,0 +1,3 @@
+../Core/Inc/CliCommand.h:36:7:void Container::doCommand(const char*, char*)	32	static
+../Core/Src/CommTask.cpp:22:5:int commTask()	16	static
+../Core/Src/CommTask.cpp:64:6:void handleCommand()	80	static
