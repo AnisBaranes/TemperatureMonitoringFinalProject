@@ -20,7 +20,7 @@ private:
 public:
 	Log(const char* fileName);
 	virtual ~Log();
-	void writeToLog(int state);
+	void writeToLog(int state, double temperature);
 	void printLog();
 	void clearLog();
 

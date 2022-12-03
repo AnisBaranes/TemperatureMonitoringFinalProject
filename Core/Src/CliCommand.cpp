@@ -9,7 +9,7 @@
 extern Led led;
 extern TemperatureSettings temperatureSettings;
 extern Rtc rtc;
-extern Log log;
+extern Log logFile;
 
 class LedOn: public CliCommand {
 private:
@@ -100,8 +100,8 @@ void Container::cliInit()
 	registerCommand("warning", new WarningTempThreshold(&temperatureSettings));
 	registerCommand("critical", new CriticalTempThreshold(&temperatureSettings));
 	registerCommand("DateTime", new SetDateTimeRTC(&rtc));
-	registerCommand("PrintLog", new PrintLog(&log));
-	registerCommand("ClearLog", new PrintLog(&log));
+	registerCommand("PrintLog", new PrintLog(&logFile));
+	registerCommand("ClearLog", new PrintLog(&logFile));
 }
 
 

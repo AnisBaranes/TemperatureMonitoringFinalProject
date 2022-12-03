@@ -19,7 +19,7 @@ Log::~Log() {
 	// TODO Auto-generated destructor stub
 }
 
-void Log::writeToLog(int state){
+void Log::writeToLog(int state, double temperature){
 
 	HAL_Delay(1000);
 
@@ -27,9 +27,25 @@ void Log::writeToLog(int state){
 	FRESULT fres;
 
 	BYTE readBuf[30];
-	const char* msg = "Hello World";
+	const char* msg;
 
-	fres = f_open(&fil, _fileName, FA_WRITE | FA_OPEN_ALWAYS | FA_CREATE_ALWAYS);
+	switch(state){
+			case 1:
+				//msg = strcat("Warning threshold raised: Severity Medium", (char*)(&temperature));
+				msg = "Warning threshold raised: Severity Medium";
+				break;
+			case 2:
+				msg = "Critical threshold raised: Severity High";
+				break;
+			case 3:
+				msg = "Normal Temperature: Severity Low";
+				break;
+			default:
+				break;
+		}
+
+
+	fres = f_open(&fil, _fileName,  FA_OPEN_APPEND | FA_WRITE); //FA_WRITE | FA_OPEN_ALWAYS | FA_CREATE_ALWAYS);
 	if(fres == FR_OK) {
 		//printf("I was able to open 'text.txt' for writing\r\n");
 	} else {

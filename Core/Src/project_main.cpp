@@ -23,7 +23,7 @@ extern I2C_HandleTypeDef hi2c1;
 extern TIM_HandleTypeDef htim1;
 extern Led led;
 extern Buzzer buzzer;
-extern Log log;
+extern Log logFile;
 extern TemperatureSettings temperatureSettings;
 extern double warningThreshold;
 extern double criticalThreshold;
@@ -118,20 +118,20 @@ extern "C" void MonitorTemperatureTask(void *argument)
 	 if(!isBtnPressed && (curTemperature > temperatureSettings.warningThreshold) && (curTemperature < temperatureSettings.criticalThreshold))
 	 {
 		 led.ledOn();
-		 log.writeToLog(1);
+		 logFile.writeToLog(1, curTemperature);
 	 }
 	 if(!isBtnPressed && (curTemperature > temperatureSettings.criticalThreshold))
 	 {
 		 led.ledBlink(700);
 		 buzzer.buzzerPlayTone(360, 180);
-		 log.writeToLog(2);
+		 logFile.writeToLog(2, curTemperature);
 	 }
 	 if(curTemperature < temperatureSettings.warningThreshold)
 	 {
 		 led.ledOff();
 		 buzzer.buzzerStop();
 		 isBtnPressed = 0;
-		 log.writeToLog(3);
+		 logFile.writeToLog(3, curTemperature);
 	 }
 	 osDelay(10);
  }

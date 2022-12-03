@@ -15,7 +15,7 @@ Led led = Led(RED_LED_D12_GPIO_Port, RED_LED_D12_Pin);
 Container container = {};
 Buzzer buzzer = Buzzer(&htim3);
 TemperatureSettings temperatureSettings;
-Log log = Log("text.txt");
+Log logFile = Log("text.txt");
 FATFS FatFs;
 
 void myMain()
@@ -42,7 +42,7 @@ void myMain()
 		temperatureSettings.magicNumber = 2591;
 	}
 
-	FRESULT fres = f_mount(&FatFs, "", 1); //1=mount now
+	f_mount(&FatFs, "", 1); //1=mount now, FRESULT fres =
 
 }
 
