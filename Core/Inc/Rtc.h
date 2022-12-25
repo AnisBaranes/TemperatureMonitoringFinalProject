@@ -11,23 +11,13 @@
 #include "main.h"
 #include "DateTime.h"
 
-//	typedef struct DateTime_
-//	{
-//		int sec;
-//		int min;
-//		int hours;
-//		int weekDay;
-//		int day;
-//		int month;
-//		int year;
-//	} DateTime;
 
 class Rtc {
 
 private:
-	I2C_HandleTypeDef * hi2c;
-	uint8_t devAddr;
-	DateTime* dateTime;
+	I2C_HandleTypeDef * _hi2c;
+	uint8_t _devAddr;
+	DateTime* _dateTime;
 public:
 	Rtc(I2C_HandleTypeDef * hi2c, uint32_t devAddr);
 	virtual ~Rtc();
@@ -36,10 +26,8 @@ public:
 	void rtcStart();
 	void rtcStop();
 	int rtcIsRunning();
-	//uint32_t rtcGetSeconds();
 
 	void rtcGetTime();
-	//uint32_t rtcGetSecondsAndPull(DateTime* dateTime);
 	uint32_t dateTimeGetSeconds();
 	void rtcSetTime(DateTime * dateTime);
 };

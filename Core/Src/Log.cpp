@@ -41,6 +41,7 @@ void Log::writeToLog(int state, double temperature){
 				msg = "Normal Temperature: Severity Low";
 				break;
 			default:
+				msg = (char*)(&temperature);
 				break;
 		}
 

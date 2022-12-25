@@ -7,7 +7,7 @@
 #include <string.h>
 #include <stdio.h>
 
-
+#define NAME_SIZE 50
 
 class CliCommand {
 public:
@@ -18,7 +18,7 @@ public:
 
 class CliEntry {
 public:
-	const char* name;
+	char name[NAME_SIZE];
 	CliCommand* cliCommand;
 };
 
@@ -29,7 +29,7 @@ private:
 	int _counter;
 public:
 	void registerCommand(const char * name, CliCommand* clicommand){
-		_cliCommand[_counter].name = name;
+		strncpy(_cliCommand[_counter].name, name, NAME_SIZE);
 		_cliCommand[_counter].cliCommand = clicommand;
 		_counter++;
 	}

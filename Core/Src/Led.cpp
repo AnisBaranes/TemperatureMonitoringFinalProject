@@ -2,32 +2,32 @@
 
  void Led::ledOn()
  {
-	 state = LED_ON;
-	 HAL_GPIO_WritePin(GPIOx, GPIO_Pin, GPIO_PIN_SET);
+	 _state = LED_ON;
+	 HAL_GPIO_WritePin(_GPIOx, _GPIO_Pin, GPIO_PIN_SET);
  }
 
 void Led::ledOff()
 {
-	state = LED_OFF;
-	HAL_GPIO_WritePin(GPIOx, GPIO_Pin, GPIO_PIN_RESET);
+	_state = LED_OFF;
+	HAL_GPIO_WritePin(_GPIOx, _GPIO_Pin, GPIO_PIN_RESET);
 }
 
 void Led::ledBlink(int period)
 {
-	state = LED_BLINK;
-	peroid = period;
+	_state = LED_BLINK;
+	_peroid = period;
 }
 
 void Led::ledRunBlink()
 {
-	if (state == LED_BLINK) {
-		HAL_GPIO_TogglePin(GPIOx, GPIO_Pin);
+	if (_state == LED_BLINK) {
+		HAL_GPIO_TogglePin(_GPIOx, _GPIO_Pin);
 	}
 }
 
 LED_STATE Led::getState(){
-	return state;
+	return _state;
 }
 void Led::setState(LED_STATE newState){
-	state = newState;
+	_state = newState;
 }

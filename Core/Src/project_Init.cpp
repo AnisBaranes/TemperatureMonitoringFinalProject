@@ -16,14 +16,17 @@ Container container = {};
 Buzzer buzzer = Buzzer(&htim3);
 TemperatureSettings temperatureSettings;
 Log logFile = Log("text.txt");
+Log tempLogFile = Log("temperature.txt");
 FATFS FatFs;
 
-void myMain()
+void projectInit()
 {
-	//HAL_TIM_Base_Start(&htim1);
+	const int magicNumber = 2591;
+	const int warningThreshold = 35;
+	const int criticalThreshold = 40;
 
-	 printf("---------- MENU ----------\r\n");
-			  printf("1. Set Date & Time (DateTime [dd] / [mm] / [yy] / [hh] : [mm])\r\n");
+	printf("---------- MENU ----------\r\n");
+			  printf("1. Set Date & Time (DateTime [dd] / [mm] / [yy] - [hh] : [mm])\r\n");
 			  printf("2. Set Warning Threshold (warning x)\r\n");
 			  printf("3. Set Critical Threshold (critical x)\r\n");
 			  printf("4. Print Log (PrintLog)\r\n");
@@ -33,13 +36,13 @@ void myMain()
 
 	//Read from flash
 	TemperatureSettings* data_ch = (TemperatureSettings*)(0x08080000);
-	if (data_ch->magicNumber == 2591) {
+	if (data_ch->magicNumber == magicNumber) {
 		memcpy(&temperatureSettings, data_ch, sizeof(TemperatureSettings));
 	}
 	else {
-		temperatureSettings.warningThreshold = 35;
-		temperatureSettings.criticalThreshold = 40;
-		temperatureSettings.magicNumber = 2591;
+		temperatureSettings.warningThreshold = warningThreshold;
+		temperatureSettings.criticalThreshold = criticalThreshold;
+		temperatureSettings.magicNumber = magicNumber;
 	}
 
 	f_mount(&FatFs, "", 1); //1=mount now, FRESULT fres =

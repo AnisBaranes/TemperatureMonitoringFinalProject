@@ -1,13 +1,17 @@
-../Core/Src/Rtc.cpp:35:1:Rtc::Rtc(I2C_HandleTypeDef*, uint32_t)	24	static
-../Core/Src/Rtc.cpp:41:1:Rtc::~Rtc()	16	static
-../Core/Src/Rtc.cpp:41:1:virtual Rtc::~Rtc()	16	static
-../Core/Src/Rtc.cpp:45:6:void Rtc::rtcWrite(uint16_t, uint8_t*, uint16_t)	40	static
-../Core/Src/Rtc.cpp:50:6:void Rtc::rtcRead(uint16_t, uint8_t*, uint16_t)	40	static
-../Core/Src/Rtc.cpp:55:6:void Rtc::rtcStart()	40	static
-../Core/Src/Rtc.cpp:63:6:void Rtc::rtcStop()	40	static
-../Core/Src/Rtc.cpp:71:5:int Rtc::rtcIsRunning()	40	static
-../Core/Src/Rtc.cpp:78:12:int bcdToInt(uint8_t)	16	static
-../Core/Src/Rtc.cpp:83:16:uint8_t intToBcd(int, int, int)	24	static
-../Core/Src/Rtc.cpp:91:6:void Rtc::rtcGetTime()	48	static
-../Core/Src/Rtc.cpp:129:10:uint32_t Rtc::dateTimeGetSeconds()	24	static
-../Core/Src/Rtc.cpp:147:6:void Rtc::rtcSetTime(DateTime*)	40	static
+c:\st\stm32cubeide_1.10.1\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.0.202111181127\tools\bin\../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/include/c++/10.3.1/arm-none-eabi/thumb/v7e-m+fp/hard/bits/gthr-default.h:229:1:int __gthread_key_delete(__gthread_key_t)	16	static
+../Core/Src/Rtc.cpp:40:1:Rtc::Rtc(I2C_HandleTypeDef*, uint32_t)	24	static
+../Core/Src/Rtc.cpp:46:1:Rtc::~Rtc()	16	static
+../Core/Src/Rtc.cpp:46:1:virtual Rtc::~Rtc()	16	static
+../Core/Src/Rtc.cpp:50:6:void Rtc::rtcWrite(uint16_t, uint8_t*, uint16_t)	48	static
+../Core/Src/Rtc.cpp:58:6:void Rtc::rtcRead(uint16_t, uint8_t*, uint16_t)	48	static
+../Core/Src/Rtc.cpp:66:6:void Rtc::rtcStart()	40	static
+../Core/Src/Rtc.cpp:83:6:void Rtc::rtcStop()	40	static
+../Core/Src/Rtc.cpp:100:5:int Rtc::rtcIsRunning()	40	static
+../Core/Src/Rtc.cpp:107:12:int bcdToInt(uint8_t)	16	static
+../Core/Src/Rtc.cpp:112:16:uint8_t intToBcd(int, int, int)	24	static
+../Core/Src/Rtc.cpp:120:6:void Rtc::rtcGetTime()	48	static
+../Core/Src/Rtc.cpp:140:10:uint32_t Rtc::dateTimeGetSeconds()	24	static
+../Core/Src/Rtc.cpp:158:6:void Rtc::rtcSetTime(DateTime*)	40	static
+../Core/Src/Rtc.cpp:174:1:void __static_initialization_and_destruction_0(int, int)	16	static
+../Core/Src/Rtc.cpp:174:1:cpp)	8	static
+../Core/Src/Rtc.cpp:174:1:cpp)	8	static

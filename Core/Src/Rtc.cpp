@@ -6,6 +6,10 @@
  */
 
 #include "Rtc.h"
+#include <stdio.h>
+#include <string.h>
+#include <fstream>
+#include <iostream>
 
 #define RTC_START_STOP      (1 << 7)
 #define RTC_DATE_TIME_SIZE  7
@@ -32,10 +36,11 @@ static const int _daysUntilMonth[] = {
 		365
 };
 
-Rtc::Rtc(I2C_HandleTypeDef * hi2c, uint32_t devAddr)
+
+Rtc::Rtc(I2C_HandleTypeDef * hi2c, uint32_t _devAddr)
 {
-	hi2c = hi2c;
-	devAddr = devAddr;
+	_hi2c = hi2c;
+	_devAddr = _devAddr;
 }
 
 Rtc::~Rtc() {
@@ -44,34 +49,58 @@ Rtc::~Rtc() {
 
 void Rtc::rtcWrite(uint16_t memAddr, uint8_t * buffer, uint16_t size)
 {
-	HAL_I2C_Mem_Write(hi2c, devAddr, memAddr, 1, buffer, size, 0xFF);
+	HAL_StatusTypeDef returnVal = HAL_I2C_Mem_Write(_hi2c, _devAddr, memAddr, 1, buffer, size, 0xFF);
+	if(returnVal){
+		printf("Rtc::rtcWrite: ERR\r'n");
+	}
 }
 
 void Rtc::rtcRead(uint16_t memAddr, uint8_t * buffer, uint16_t size)
 {
-	HAL_I2C_Mem_Read(hi2c, devAddr, memAddr, 1, buffer, size, 0xFF);
+	HAL_StatusTypeDef returnVal = HAL_I2C_Mem_Read(_hi2c, _devAddr, memAddr, 1, buffer, size, 0xFF);
+	if(returnVal) {
+		printf("Rtc::rtcRead: ERR\r'n");
+	}
 }
 
 void Rtc::rtcStart()
 {
 	uint8_t sec = 0;
-	HAL_I2C_Mem_Read(hi2c, devAddr, 0, 1, &sec, 1, 0xFF);
+	HAL_StatusTypeDef returnVal;
+
+	returnVal = HAL_I2C_Mem_Read(_hi2c, _devAddr, 0, 1, &sec, 1, 0xFF);
+	if(returnVal) {
+		printf("Rtc::rtcStart: Read ERR\r'n");
+	}
+
 	sec &= ~RTC_START_STOP;
-	HAL_I2C_Mem_Write(hi2c, devAddr, 0, 1, &sec, 1, 0xFF);
+	returnVal = HAL_I2C_Mem_Write(_hi2c, _devAddr, 0, 1, &sec, 1, 0xFF);
+	if(returnVal) {
+		printf("Rtc::rtcStart: Write ERR\r'n");
+	}
 }
 
 void Rtc::rtcStop()
 {
 	uint8_t sec = 0;
-	HAL_I2C_Mem_Read(hi2c, devAddr, 0, 1, &sec, 1, 0xFF);
+	HAL_StatusTypeDef returnVal;
+
+	returnVal = HAL_I2C_Mem_Read(_hi2c, _devAddr, 0, 1, &sec, 1, 0xFF);
+	if(returnVal) {
+		printf("Rtc::rtcStop: Read ERR\r'n");
+	}
+
 	sec |= RTC_START_STOP;
-	HAL_I2C_Mem_Write(hi2c, devAddr, 0, 1, &sec, 1, 0xFF);
+	returnVal = HAL_I2C_Mem_Write(_hi2c, _devAddr, 0, 1, &sec, 1, 0xFF);
+	if(returnVal) {
+		printf("Rtc::rtcStop: Write ERR\r'n");
+	}
 }
 
 int Rtc::rtcIsRunning()
 {
 	uint8_t sec = 0;
-	HAL_I2C_Mem_Read(hi2c, devAddr, 0, 1, &sec, 1, 0xFF);
+	HAL_I2C_Mem_Read(_hi2c, _devAddr, 0, 1, &sec, 1, 0xFF);
 	return (sec & RTC_START_STOP) == 0;
 }
 
@@ -91,56 +120,38 @@ static uint8_t intToBcd(int value, int minVal, int maxVal)
 void Rtc::rtcGetTime()
 {
 	uint8_t buffer[RTC_DATE_TIME_SIZE];
-	HAL_I2C_Mem_Read(hi2c, devAddr, 0, 1, buffer, RTC_DATE_TIME_SIZE, 0xFF);
+	HAL_StatusTypeDef returnVal = HAL_I2C_Mem_Read(_hi2c, _devAddr, 0, 1, buffer, RTC_DATE_TIME_SIZE, 0xFF);
+	if(returnVal) {
+		printf("Rtc::rtcGetTime: Read ERR\r'n");
+	}
 
 	// remove stop bit if set
 	buffer[0] &= ~RTC_START_STOP;
-	dateTime->_sec = bcdToInt(buffer[0]);
-	dateTime->_min = bcdToInt(buffer[1]);
-	dateTime->_hours = bcdToInt(buffer[2]);
-	dateTime->_weekDay = buffer[3] & 0x07;
-	dateTime->_day = bcdToInt(buffer[4]);
-	dateTime->_month = bcdToInt(buffer[5]);
-	dateTime->_year = bcdToInt(buffer[6]);
+	_dateTime->_sec = bcdToInt(buffer[0]);
+	_dateTime->_min = bcdToInt(buffer[1]);
+	_dateTime->_hours = bcdToInt(buffer[2]);
+	_dateTime->_weekDay = buffer[3] & 0x07;
+	_dateTime->_day = bcdToInt(buffer[4]);
+	_dateTime->_month = bcdToInt(buffer[5]);
+	_dateTime->_year = bcdToInt(buffer[6]);
 }
 
-//uint32_t Rtc::rtcGetSeconds()
-//{
-//	// calculate seconds from 00:00:00 1/1/2020
-//	DateTime dateTime;
-//	rtcGetTime(&dateTime);
-//
-//	uint32_t seconds = dateTime.sec +
-//			dateTime.min * SecondsInMin +
-//			dateTime.hours * SecondsInHour +
-//			dateTime.day * SecondsInDay +
-//			_daysUntilMonth[dateTime.month - 1] * SecondsInDay +
-//			dateTime.year * DaysInYear * SecondsInDay;
-//	if (dateTime.year % 4 == 0 && dateTime.month > 2) {
-//		// if current year is a leap year and month is after February
-//		// add seconds for February 29
-//		seconds += SecondsInDay;
-//	}
-//	// add seconds for all previous leap years
-//	seconds += (dateTime.year / 4) * SecondsInDay;
-//	return seconds;
-//}
 
 uint32_t Rtc::dateTimeGetSeconds()
 {
-	uint32_t seconds = dateTime->_sec +
-				dateTime->_min * SecondsInMin +
-				dateTime->_hours * SecondsInHour +
-				dateTime->_day * SecondsInDay +
-				_daysUntilMonth[dateTime->_month - 1] * SecondsInDay +
-				dateTime->_year * DaysInYear * SecondsInDay;
-	if (dateTime->_year % 4 == 0 && dateTime->_month > 2) {
+	uint32_t seconds = _dateTime->_sec +
+				_dateTime->_min * SecondsInMin +
+				_dateTime->_hours * SecondsInHour +
+				_dateTime->_day * SecondsInDay +
+				_daysUntilMonth[_dateTime->_month - 1] * SecondsInDay +
+				_dateTime->_year * DaysInYear * SecondsInDay;
+	if (_dateTime->_year % 4 == 0 && _dateTime->_month > 2) {
 		// if current year is a leap year and month is after February
 		// add seconds for February 29
 		seconds += SecondsInDay;
 	}
 	// add seconds for all previous leap years
-	seconds += (dateTime->_year / 4) * SecondsInDay;
+	seconds += (_dateTime->_year / 4) * SecondsInDay;
 	return seconds;
 }
 
@@ -156,30 +167,11 @@ void Rtc::rtcSetTime(DateTime * _dateTime)
 	buffer[5] = intToBcd(_dateTime->_month, 1, 12);
 	buffer[6] = intToBcd(_dateTime->_year, 1, 99);
 
-	HAL_I2C_Mem_Write(hi2c, devAddr, 0, 1, buffer, RTC_DATE_TIME_SIZE, 0xFF);
+	HAL_StatusTypeDef returnVal = HAL_I2C_Mem_Write(_hi2c, _devAddr, 0, 1, buffer, RTC_DATE_TIME_SIZE, 0xFF);
+	if(returnVal) {
+		printf("Rtc::rtcSetTime: Write ERR\r'n");
+	}
 }
-
-
-//uint32_t Rtc::rtcGetSecondsAndPull(DateTime* dateTime)
-//{
-//	// calculate seconds from 00:00:00 1/1/2020
-//	rtcGetTime(dateTime);
-//
-//	uint32_t seconds = dateTime->sec +
-//			dateTime->min * SecondsInMin +
-//			dateTime->hours * SecondsInHour +
-//			dateTime->day * SecondsInDay +
-//			_daysUntilMonth[dateTime->month - 1] * SecondsInDay +
-//			dateTime->year * DaysInYear * SecondsInDay;
-//	if (dateTime->year % 4 == 0 && dateTime->month > 2) {
-//		// if current year is a leap year and month is after February
-//		// add seconds for February 29
-//		seconds += SecondsInDay;
-//	}
-//	// add seconds for all previous leap years
-//	seconds += (dateTime->year / 4) * SecondsInDay;
-//	return seconds;
-//}
 
 
 

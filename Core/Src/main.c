@@ -82,6 +82,13 @@ const osThreadAttr_t LedRunBlink_attributes = {
 osThreadId_t CommHandle;
 const osThreadAttr_t Comm_attributes = {
   .name = "Comm",
+  .stack_size = 512 * 4,
+  .priority = (osPriority_t) osPriorityNormal,
+};
+/* Definitions for TemperatureLog */
+osThreadId_t TemperatureLogHandle;
+const osThreadAttr_t TemperatureLog_attributes = {
+  .name = "TemperatureLog",
   .stack_size = 256 * 4,
   .priority = (osPriority_t) osPriorityNormal,
 };
@@ -102,6 +109,7 @@ extern void CheckTemeratureTask(void *argument);
 extern void MonitorTemperatureTask(void *argument);
 extern void LedRunBlinkTask(void *argument);
 extern void CommTask(void *argument);
+extern void TemperatureLogTask(void *argument);
 
 /* USER CODE BEGIN PFP */
 
@@ -185,6 +193,9 @@ int main(void)
   /* creation of Comm */
   CommHandle = osThreadNew(CommTask, NULL, &Comm_attributes);
 
+  /* creation of TemperatureLog */
+  TemperatureLogHandle = osThreadNew(TemperatureLogTask, NULL, &TemperatureLog_attributes);
+
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
   /* USER CODE END RTOS_THREADS */
@@ -192,7 +203,7 @@ int main(void)
   /* USER CODE BEGIN RTOS_EVENTS */
   /* add events, ... */
 //  HAL_TIM_Base_Start(&htim1);
-  myMain();
+  projectInit();
   /* USER CODE END RTOS_EVENTS */
 
   /* Start scheduler */

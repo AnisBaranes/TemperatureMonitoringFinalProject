@@ -15,15 +15,17 @@
 class Flash {
 
 private:
-	int FlashInterruptIndex;
-	uint32_t * address;
-	char data[64];
-	uint16_t size;
+	int _FlashInterruptIndex;
+	uint32_t * _address;
+	char _data[64];
+	uint16_t _size;
+	uint32_t _pageSize;
+	uint32_t _pagesInBank;
 
 public:
 	Flash();
 	virtual ~Flash();
-	void flash_erase(int page);
+	void flash_erase(int page); //(uint32_t * address);
 	uint8_t flash_write(uint32_t* address, uint64_t *data, uint16_t size);
 	void flash_print();
 	void flash_eraseIT();

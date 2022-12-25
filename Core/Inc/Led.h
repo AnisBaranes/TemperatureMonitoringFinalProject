@@ -3,29 +3,29 @@
 
 #include "main.h"
 
-typedef enum {
+enum LED_STATE{
 	LED_ON = 1,
 	LED_OFF = 2,
 	LED_BLINK = 3
-}LED_STATE;
+};
 
 
 class Led {
 private:
 
-	LED_STATE state;
-	int peroid;
-	GPIO_TypeDef* GPIOx;
-	uint16_t GPIO_Pin;
+	LED_STATE _state;
+	int _peroid;
+	GPIO_TypeDef* _GPIOx;
+	uint16_t _GPIO_Pin;
 
 public:
     Led(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin) :
-    	state (LED_OFF),
-		peroid(0),
-		GPIOx(GPIOx),
-		GPIO_Pin(GPIO_Pin)
+    	_state (LED_OFF),
+		_peroid(0),
+		_GPIOx(GPIOx),
+		_GPIO_Pin(GPIO_Pin)
     {
-		HAL_GPIO_WritePin(GPIOx, GPIO_Pin, GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(_GPIOx, _GPIO_Pin, GPIO_PIN_RESET);
     }
 
     ~Led() {

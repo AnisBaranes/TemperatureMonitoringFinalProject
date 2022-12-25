@@ -10,18 +10,18 @@
 
 #include "main.h"
 
-typedef enum BuzzerState_
+enum BuzzerState
 {
 	BUZ_STATE_OFF,
 	BUZ_STATE_TONE,
 	BUZ_STATE_MUSIC,
 	BUZ_RESET //TODO: complete later
-} BuzzerState;
+};
 
 class Buzzer {
 private:
-	BuzzerState state;
-	TIM_HandleTypeDef* pwmTimer;
+	BuzzerState _state;
+	TIM_HandleTypeDef* _pwmTimer;
 
 public:
 	Buzzer(TIM_HandleTypeDef* _pwmTimer);

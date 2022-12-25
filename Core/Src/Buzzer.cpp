@@ -12,9 +12,9 @@
 #include <string.h>
 
 
-Buzzer::Buzzer(TIM_HandleTypeDef* _pwmTimer):pwmTimer(_pwmTimer) {
+Buzzer::Buzzer(TIM_HandleTypeDef* pwmTimer):_pwmTimer(pwmTimer) {
 	HAL_NVIC_EnableIRQ(TIM3_IRQn);
-	state = BUZ_STATE_OFF;
+	_state = BUZ_STATE_OFF;
 }
 
 Buzzer::~Buzzer() {
@@ -24,21 +24,21 @@ Buzzer::~Buzzer() {
 
 void Buzzer::buzzerStop()
 {
-	state = BUZ_STATE_OFF;
+	_state = BUZ_STATE_OFF;
 
-	HAL_TIM_Base_Stop(pwmTimer);
-	HAL_TIM_PWM_Stop(pwmTimer, TIM_CHANNEL_1);
+	HAL_TIM_Base_Stop(_pwmTimer);
+	HAL_TIM_PWM_Stop(_pwmTimer, TIM_CHANNEL_1);
 }
 
 void Buzzer::buzzerPlayTone(int frequency, int timeMs)
 {
-	state = BUZ_STATE_TONE;
+	_state = BUZ_STATE_TONE;
 
 	int per = (100000 + frequency / 2) / frequency;
-	__HAL_TIM_SET_COUNTER(pwmTimer, 0);
-	__HAL_TIM_SET_AUTORELOAD(pwmTimer, per);
-	__HAL_TIM_SET_COMPARE(pwmTimer, TIM_CHANNEL_1, (per /2));
+	__HAL_TIM_SET_COUNTER(_pwmTimer, 0);
+	__HAL_TIM_SET_AUTORELOAD(_pwmTimer, per);
+	__HAL_TIM_SET_COMPARE(_pwmTimer, TIM_CHANNEL_1, (per /2));
 
-	HAL_TIM_PWM_Start(pwmTimer, TIM_CHANNEL_1);
-	HAL_TIM_Base_Start(pwmTimer);
+	HAL_TIM_PWM_Start(_pwmTimer, TIM_CHANNEL_1);
+	HAL_TIM_Base_Start(_pwmTimer);
 }

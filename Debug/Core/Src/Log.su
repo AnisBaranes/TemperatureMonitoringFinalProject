@@ -3,8 +3,8 @@ c:\st\stm32cubeide_1.10.1\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.external
 ../Core/Src/Log.cpp:18:1:Log::~Log()	16	static
 ../Core/Src/Log.cpp:18:1:virtual Log::~Log()	16	static
 ../Core/Src/Log.cpp:22:6:void Log::writeToLog(int, double)	632	static
-../Core/Src/Log.cpp:67:6:void Log::printLog()	680	static
-../Core/Src/Log.cpp:88:6:void Log::clearLog()	16	static
-../Core/Src/Log.cpp:91:1:void __static_initialization_and_destruction_0(int, int)	16	static
-../Core/Src/Log.cpp:91:1:cpp)	8	static
-../Core/Src/Log.cpp:91:1:cpp)	8	static
+../Core/Src/Log.cpp:68:6:void Log::printLog()	680	static
+../Core/Src/Log.cpp:89:6:void Log::clearLog()	16	static
+../Core/Src/Log.cpp:92:1:void __static_initialization_and_destruction_0(int, int)	16	static
+../Core/Src/Log.cpp:92:1:cpp)	8	static
+../Core/Src/Log.cpp:92:1:cpp)	8	static

@@ -62,7 +62,7 @@ public:
 	}
 
 	void doCommand(const char* param){
-		DateTime _dateTime = DateTime(0,0,0,0,0,0,0);
+		DateTime _dateTime = { 0,0,0,0,0,0,0};
 		sscanf(param, "%d/%d/%d-%d:%d", &_dateTime._day, &_dateTime._month, &_dateTime._year, &_dateTime._hours, &_dateTime._min);
 		_rtc->rtcSetTime(&_dateTime);
 	}
@@ -101,7 +101,7 @@ void Container::cliInit()
 	registerCommand("critical", new CriticalTempThreshold(&temperatureSettings));
 	registerCommand("DateTime", new SetDateTimeRTC(&rtc));
 	registerCommand("PrintLog", new PrintLog(&logFile));
-	registerCommand("ClearLog", new PrintLog(&logFile));
+	registerCommand("ClearLog", new ClearLog(&logFile));
 }
 
 

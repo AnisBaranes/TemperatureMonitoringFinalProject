@@ -27,19 +27,19 @@ enum DhtState
 
 class DHT {
 private:
-	DhtState dhtState{};
-	GPIO_TypeDef * gpioPort;
-	uint16_t gpioPin;
-	TIM_HandleTypeDef * timer;
-	int counter;
-	int maxCounter;
-	int state;
-	uint8_t data[5];
-	int bit;
-	double temperature;
-	double humidity;
+	DhtState _dhtState{};
+	GPIO_TypeDef * _gpioPort;
+	uint16_t _gpioPin;
+	TIM_HandleTypeDef * _timer;
+	int _counter;
+	int _maxCounter;
+	int _state;
+	uint8_t _data[5];
+	int _bit;
+	double _temperature;
+	double _humidity;
 public:
-	DHT(GPIO_TypeDef * _gpioPort, uint16_t _gpioPin, TIM_HandleTypeDef * _timer);
+	DHT(GPIO_TypeDef * gpioPort, uint16_t gpioPin, TIM_HandleTypeDef * timer);
 	virtual ~DHT();
 	void setGpioOutput();
 	void setGpioInput();

@@ -13,9 +13,7 @@
 
 class Log {
 private:
-	DateTime* dateTime;
-	enum Severity { Warning, High };
-	char* msg;
+	DateTime* _dateTime;
 	char _fileName[20];
 public:
 	Log(const char* fileName);

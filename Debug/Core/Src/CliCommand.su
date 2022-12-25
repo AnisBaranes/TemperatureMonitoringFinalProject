@@ -2,9 +2,6 @@ c:\st\stm32cubeide_1.10.1\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.external
 ../Core/Inc/CliCommand.h:15:10:CliCommand::~CliCommand()	16	static
 ../Core/Inc/CliCommand.h:15:10:virtual CliCommand::~CliCommand()	16	static
 ../Core/Inc/CliCommand.h:31:7:void Container::registerCommand(const char*, CliCommand*)	24	static
-../Core/Inc/DateTime.h:21:2:DateTime::DateTime(int, int, int, int, int, int, int)	24	static
-../Core/Inc/DateTime.h:23:10:DateTime::~DateTime()	16	static
-../Core/Inc/DateTime.h:23:10:virtual DateTime::~DateTime()	16	static
 ../Core/Inc/CliCommand.h:12:7:constexpr CliCommand::CliCommand()	16	static
 ../Core/Src/CliCommand.cpp:18:2:LedOn::LedOn(Led*)	16	static
 ../Core/Src/CliCommand.cpp:22:7:virtual void LedOn::doCommand(const char*)	16	static
@@ -16,7 +13,11 @@ c:\st\stm32cubeide_1.10.1\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.external
 ../Core/Src/CliCommand.cpp:64:7:virtual void SetDateTimeRTC::doCommand(const char*)	64	static
 ../Core/Src/CliCommand.cpp:75:2:PrintLog::PrintLog(Log*)	16	static
 ../Core/Src/CliCommand.cpp:79:7:virtual void PrintLog::doCommand(const char*)	16	static
+../Core/Src/CliCommand.cpp:88:2:ClearLog::ClearLog(Log*)	16	static
+../Core/Src/CliCommand.cpp:92:7:virtual void ClearLog::doCommand(const char*)	16	static
 ../Core/Src/CliCommand.cpp:97:6:void Container::cliInit()	24	static
+../Core/Src/CliCommand.cpp:84:7:ClearLog::~ClearLog()	16	static
+../Core/Src/CliCommand.cpp:84:7:virtual ClearLog::~ClearLog()	16	static
 ../Core/Src/CliCommand.cpp:71:7:PrintLog::~PrintLog()	16	static
 ../Core/Src/CliCommand.cpp:71:7:virtual PrintLog::~PrintLog()	16	static
 ../Core/Src/CliCommand.cpp:56:7:SetDateTimeRTC::~SetDateTimeRTC()	16	static

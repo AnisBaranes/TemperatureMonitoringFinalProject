@@ -8,39 +8,42 @@
 #include "Flash.h"
 
 Flash::Flash() {
-	FlashInterruptIndex = 0;
-	address = (uint32_t *)(0x08080000);
-	//data[64] = "Test of anis";
-	size = 64;
+	_FlashInterruptIndex = 0;
+	_address = (uint32_t *)(0x08080000);
+	_size = 64;
+	_pageSize = 2048;
+	_pagesInBank = 256;
 }
 
 Flash::~Flash() {
 
 }
 
-
-void Flash::flash_erase(int page)
+void Flash::flash_erase(int page) //(uint32_t * address)
 {
+//	uint32_t * flashStartAddress = (uint32_t *)(0x080000000);
+//	uint32_t page = (address - flashStartAddress) / _pageSize;
+//	uint32_t bank = page < _pagesInBank ? 1 : 2;
+
 	uint32_t page_error = 0;
 
 	FLASH_EraseInitTypeDef earseInit;
 	earseInit.TypeErase = FLASH_TYPEERASE_PAGES;
-	earseInit.Banks = FLASH_BANK_2;
-	earseInit.Page = page; //256;
+	earseInit.Banks =  FLASH_BANK_2; //bank;
+	earseInit.Page = page;
 	earseInit.NbPages = 1;
 
 	HAL_FLASH_Unlock();
 	HAL_FLASHEx_Erase(&earseInit, &page_error);
 	HAL_FLASH_Lock();
-
 }
 
 uint8_t Flash::flash_write(uint32_t* address, uint64_t *data, uint16_t size)
 {
 	HAL_FLASH_Unlock();
-	for (int i = 0; i < size/8; i++)
+	for (int i = 0; i < _size/8; i++)
 	{
-		if (HAL_FLASH_Program(FLASH_TYPEPROGRAM_DOUBLEWORD, ((uint32_t)address) + (i*8), data[i]) != HAL_OK)
+		if (HAL_FLASH_Program(FLASH_TYPEPROGRAM_DOUBLEWORD, ((uint32_t)_address) + (i*8), _data[i]) != HAL_OK)
 			return 1;
 	}
 	return 0;
@@ -70,10 +73,10 @@ void Flash::flash_eraseIT()
 
 void Flash::MyFlashInterruptHandler()
 {
-	if(FlashInterruptIndex <= 64)
+	if(_FlashInterruptIndex <= 64)
 	{
-		HAL_FLASH_Program_IT(FLASH_TYPEPROGRAM_DOUBLEWORD, ((uint32_t)address) + FlashInterruptIndex , *(uint64_t*)(data + FlashInterruptIndex));
-		FlashInterruptIndex += sizeof(uint64_t);
+		HAL_FLASH_Program_IT(FLASH_TYPEPROGRAM_DOUBLEWORD, ((uint32_t)_address) + _FlashInterruptIndex , *(uint64_t*)(_data + _FlashInterruptIndex));
+		_FlashInterruptIndex += sizeof(uint64_t);
 	}
 
 }

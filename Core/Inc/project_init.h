@@ -24,7 +24,7 @@ struct TemperatureSettings {
 };
 
 
-void myMain();
+void projectInit();
 void cliInit();
 
 #ifdef __cplusplus
